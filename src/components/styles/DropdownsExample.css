@@ -1,0 +1,14 @@
+div.vbox {
+    display: flex;
+    flex-direction: column;
+}
+div.hbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+div.hbox > * {
+    margin-top: 10px;
+    margin-left: 10px;
+}
