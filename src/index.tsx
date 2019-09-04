@@ -17,10 +17,20 @@ import ImagesExample from './components/ImagesExample';
 import FigureExample from './components/FigureExample';
 import JumbotronExample from './components/JumbotronExample';
 import ListGroupExample from './components/ListGroupExample';
+import ModalsExample from './components/ModalsExample';
+import NavsExample from './components/NavsExample';
+import NavbarsExample from './components/NavbarsExample';
+import OverlaysExample from './components/OverlaysExample';
+import PaginationsExample from './components/PaginationsExample';
+import ProgressExample from './components/ProgressExample';
+import SpinnersExample from './components/SpinnersExample';
+import TableExample from './components/TableExample';
+import TabsExample from './components/TabsExample';
+import ToastsExample from './components/ToastsExample';
 
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<ListGroupExample />, document.getElementById('root'));
+ReactDOM.render(<ToastsExample />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
