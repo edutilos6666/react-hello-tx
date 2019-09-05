@@ -74,6 +74,15 @@ const typeDefs = `
     worker(id: ID!): Worker
     workers: [Worker!]!
   }
+
+  type Mutation {
+    postWorker(
+      name: String!
+      age: Int!
+      wage: Float!
+      active: Boolean!
+    ): Worker!
+  }
 `;
 
 
@@ -86,6 +95,27 @@ const resolvers = {
       launches: ()=> launches,
       worker: (parent, args)=> workers.filter(one=> one.id === args.id)[0],
       workers: ()=> workers
+ },
+ Mutation: {
+   postWorker(parent, args) {
+     let lastId = -1;
+     workers.map(one=> {
+       if(one.id > lastId) lastId = parseInt(one.id);
+     });
+    //  let lastId = workers.reduce((prev, curr)=>  {
+    //    if(prev && curr && curr.id > prev.id) return curr.id;
+    //    else if(prev) return prev.id;
+    //    return -1;
+    //  });
+    //  lastId += 1;
+    lastId = lastId += 1;
+    const newWorker = {
+       id: lastId,
+       ...args
+     }
+     workers.push(newWorker);
+     return newWorker;
+   }
  }
 };
 

@@ -15,13 +15,13 @@ export type Scalars = {
 };
 
 export type Book = {
-  __typename?: 'Book',
+   __typename?: 'Book',
   title?: Maybe<Scalars['String']>,
   author?: Maybe<Scalars['String']>,
 };
 
 export type Launch = {
-  __typename?: 'Launch',
+   __typename?: 'Launch',
   flight_number?: Maybe<Scalars['Int']>,
   mission_id?: Maybe<Array<Maybe<Scalars['String']>>>,
   mission_name?: Maybe<Scalars['String']>,
@@ -34,7 +34,7 @@ export type Launch = {
 };
 
 export type LaunchLinks = {
-  __typename?: 'LaunchLinks',
+   __typename?: 'LaunchLinks',
   mission_patch?: Maybe<Scalars['String']>,
   mission_patch_small?: Maybe<Scalars['String']>,
   reddit_campaign?: Maybe<Scalars['String']>,
@@ -50,21 +50,34 @@ export type LaunchLinks = {
 };
 
 export type LaunchRocket = {
-  __typename?: 'LaunchRocket',
+   __typename?: 'LaunchRocket',
   rocket_id?: Maybe<Scalars['String']>,
   rocket_name?: Maybe<Scalars['String']>,
   rocket_type?: Maybe<Scalars['String']>,
 };
 
 export type LaunchSite = {
-  __typename?: 'LaunchSite',
+   __typename?: 'LaunchSite',
   site_id?: Maybe<Scalars['String']>,
   site_name?: Maybe<Scalars['String']>,
   site_name_long?: Maybe<Scalars['String']>,
 };
 
+export type Mutation = {
+   __typename?: 'Mutation',
+  postWorker: Worker,
+};
+
+
+export type MutationPostWorkerArgs = {
+  name: Scalars['String'],
+  age: Scalars['Int'],
+  wage: Scalars['Float'],
+  active: Scalars['Boolean']
+};
+
 export type Query = {
-  __typename?: 'Query',
+   __typename?: 'Query',
   books?: Maybe<Array<Maybe<Book>>>,
   launch?: Maybe<Launch>,
   launches?: Maybe<Array<Maybe<Launch>>>,
@@ -83,7 +96,7 @@ export type QueryWorkerArgs = {
 };
 
 export type Worker = {
-  __typename?: 'Worker',
+   __typename?: 'Worker',
   id: Scalars['ID'],
   name: Scalars['String'],
   age: Scalars['Int'],
@@ -93,26 +106,76 @@ export type Worker = {
 export type LaunchListQueryVariables = {};
 
 
-export type LaunchListQuery = ({ __typename?: 'Query' } & { launches: Maybe<Array<Maybe<({ __typename?: 'Launch' } & Pick<Launch, 'flight_number' | 'mission_name' | 'launch_year'>)>>> });
+export type LaunchListQuery = (
+  { __typename?: 'Query' }
+  & { launches: Maybe<Array<Maybe<(
+    { __typename?: 'Launch' }
+    & Pick<Launch, 'flight_number' | 'mission_name' | 'launch_year'>
+  )>>> }
+);
 
 export type LaunchProfileQueryVariables = {
   id?: Maybe<Scalars['String']>
 };
 
 
-export type LaunchProfileQuery = ({ __typename?: 'Query' } & { launch: Maybe<({ __typename?: 'Launch' } & Pick<Launch, 'flight_number' | 'mission_name' | 'launch_year' | 'launch_success' | 'details'> & { launch_site: Maybe<({ __typename?: 'LaunchSite' } & Pick<LaunchSite, 'site_name'>)>, rocket: Maybe<({ __typename?: 'LaunchRocket' } & Pick<LaunchRocket, 'rocket_name' | 'rocket_type'>)>, links: Maybe<({ __typename?: 'LaunchLinks' } & Pick<LaunchLinks, 'flickr_images'>)> })> });
+export type LaunchProfileQuery = (
+  { __typename?: 'Query' }
+  & { launch: Maybe<(
+    { __typename?: 'Launch' }
+    & Pick<Launch, 'flight_number' | 'mission_name' | 'launch_year' | 'launch_success' | 'details'>
+    & { launch_site: Maybe<(
+      { __typename?: 'LaunchSite' }
+      & Pick<LaunchSite, 'site_name'>
+    )>, rocket: Maybe<(
+      { __typename?: 'LaunchRocket' }
+      & Pick<LaunchRocket, 'rocket_name' | 'rocket_type'>
+    )>, links: Maybe<(
+      { __typename?: 'LaunchLinks' }
+      & Pick<LaunchLinks, 'flickr_images'>
+    )> }
+  )> }
+);
+
+export type CreateWorkerMutationVariables = {
+  name: Scalars['String'],
+  age: Scalars['Int'],
+  wage: Scalars['Float'],
+  active: Scalars['Boolean']
+};
+
+
+export type CreateWorkerMutation = (
+  { __typename?: 'Mutation' }
+  & { postWorker: (
+    { __typename?: 'Worker' }
+    & Pick<Worker, 'id' | 'name' | 'age' | 'wage' | 'active'>
+  ) }
+);
 
 export type WorkerListQueryVariables = {};
 
 
-export type WorkerListQuery = ({ __typename?: 'Query' } & { workers: Array<({ __typename?: 'Worker' } & Pick<Worker, 'id' | 'name' | 'age' | 'wage' | 'active'>)> });
+export type WorkerListQuery = (
+  { __typename?: 'Query' }
+  & { workers: Array<(
+    { __typename?: 'Worker' }
+    & Pick<Worker, 'id' | 'name' | 'age' | 'wage' | 'active'>
+  )> }
+);
 
 export type WorkerProfileQueryVariables = {
   id: Scalars['ID']
 };
 
 
-export type WorkerProfileQuery = ({ __typename?: 'Query' } & { worker: Maybe<({ __typename?: 'Worker' } & Pick<Worker, 'id' | 'name' | 'age' | 'wage' | 'active'>)> });
+export type WorkerProfileQuery = (
+  { __typename?: 'Query' }
+  & { worker: Maybe<(
+    { __typename?: 'Worker' }
+    & Pick<Worker, 'id' | 'name' | 'age' | 'wage' | 'active'>
+  )> }
+);
 
 export const LaunchListDocument = gql`
     query LaunchList {
@@ -132,7 +195,11 @@ export type LaunchListComponentProps = Omit<ApolloReactComponents.QueryComponent
 
     export function useLaunchListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<LaunchListQuery, LaunchListQueryVariables>) {
       return ApolloReactHooks.useQuery<LaunchListQuery, LaunchListQueryVariables>(LaunchListDocument, baseOptions);
-    };
+    }
+      export function useLaunchListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<LaunchListQuery, LaunchListQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<LaunchListQuery, LaunchListQueryVariables>(LaunchListDocument, baseOptions);
+      }
+      
 export type LaunchListQueryHookResult = ReturnType<typeof useLaunchListQuery>;
 export type LaunchListQueryResult = ApolloReactCommon.QueryResult<LaunchListQuery, LaunchListQueryVariables>;
 export const LaunchProfileDocument = gql`
@@ -165,9 +232,38 @@ export type LaunchProfileComponentProps = Omit<ApolloReactComponents.QueryCompon
 
     export function useLaunchProfileQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<LaunchProfileQuery, LaunchProfileQueryVariables>) {
       return ApolloReactHooks.useQuery<LaunchProfileQuery, LaunchProfileQueryVariables>(LaunchProfileDocument, baseOptions);
-    };
+    }
+      export function useLaunchProfileLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<LaunchProfileQuery, LaunchProfileQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<LaunchProfileQuery, LaunchProfileQueryVariables>(LaunchProfileDocument, baseOptions);
+      }
+      
 export type LaunchProfileQueryHookResult = ReturnType<typeof useLaunchProfileQuery>;
 export type LaunchProfileQueryResult = ApolloReactCommon.QueryResult<LaunchProfileQuery, LaunchProfileQueryVariables>;
+export const CreateWorkerDocument = gql`
+    mutation createWorker($name: String!, $age: Int!, $wage: Float!, $active: Boolean!) {
+  postWorker(name: $name, age: $age, wage: $wage, active: $active) {
+    id
+    name
+    age
+    wage
+    active
+  }
+}
+    `;
+export type CreateWorkerMutationFn = ApolloReactCommon.MutationFunction<CreateWorkerMutation, CreateWorkerMutationVariables>;
+export type CreateWorkerComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateWorkerMutation, CreateWorkerMutationVariables>, 'mutation'>;
+
+    export const CreateWorkerComponent = (props: CreateWorkerComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateWorkerMutation, CreateWorkerMutationVariables> mutation={CreateWorkerDocument} {...props} />
+    );
+    
+
+    export function useCreateWorkerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateWorkerMutation, CreateWorkerMutationVariables>) {
+      return ApolloReactHooks.useMutation<CreateWorkerMutation, CreateWorkerMutationVariables>(CreateWorkerDocument, baseOptions);
+    }
+export type CreateWorkerMutationHookResult = ReturnType<typeof useCreateWorkerMutation>;
+export type CreateWorkerMutationResult = ApolloReactCommon.MutationResult<CreateWorkerMutation>;
+export type CreateWorkerMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateWorkerMutation, CreateWorkerMutationVariables>;
 export const WorkerListDocument = gql`
     query WorkerList {
   workers {
@@ -188,7 +284,11 @@ export type WorkerListComponentProps = Omit<ApolloReactComponents.QueryComponent
 
     export function useWorkerListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<WorkerListQuery, WorkerListQueryVariables>) {
       return ApolloReactHooks.useQuery<WorkerListQuery, WorkerListQueryVariables>(WorkerListDocument, baseOptions);
-    };
+    }
+      export function useWorkerListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<WorkerListQuery, WorkerListQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<WorkerListQuery, WorkerListQueryVariables>(WorkerListDocument, baseOptions);
+      }
+      
 export type WorkerListQueryHookResult = ReturnType<typeof useWorkerListQuery>;
 export type WorkerListQueryResult = ApolloReactCommon.QueryResult<WorkerListQuery, WorkerListQueryVariables>;
 export const WorkerProfileDocument = gql`
@@ -211,6 +311,10 @@ export type WorkerProfileComponentProps = Omit<ApolloReactComponents.QueryCompon
 
     export function useWorkerProfileQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<WorkerProfileQuery, WorkerProfileQueryVariables>) {
       return ApolloReactHooks.useQuery<WorkerProfileQuery, WorkerProfileQueryVariables>(WorkerProfileDocument, baseOptions);
-    };
+    }
+      export function useWorkerProfileLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<WorkerProfileQuery, WorkerProfileQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<WorkerProfileQuery, WorkerProfileQueryVariables>(WorkerProfileDocument, baseOptions);
+      }
+      
 export type WorkerProfileQueryHookResult = ReturnType<typeof useWorkerProfileQuery>;
 export type WorkerProfileQueryResult = ApolloReactCommon.QueryResult<WorkerProfileQuery, WorkerProfileQueryVariables>;

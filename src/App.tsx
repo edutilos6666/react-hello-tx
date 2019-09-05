@@ -5,19 +5,26 @@ import WorkerListContainer from './components/WorkerList';
 
 import './App.css';
 import WorkerProfileContainer from './components/WorkerProfile';
+import WorkerCreate from './components/WorkerCreate/WorkerCreate';
+import WorkerComponent from './components/WorkerComponent';
 
-const App = () => {
-  const [id, setId] = useState(1);
-  const handleIdChange = useCallback(newId=> {
-    setId(newId);
-  }, []);
+// const App = () => {
+//   const [id, setId] = useState(1);
+//   const handleIdChange = useCallback(newId=> {
+//     setId(newId);
+//   }, []);
 
-  return (
-    <div className="App">
-      <WorkerListContainer handleIdChange={handleIdChange} />
-      <WorkerProfileContainer id={id} />
-    </div>
-  );
-};
+//   return (
+//     <div className="App">
+//       <WorkerListContainer handleIdChange={handleIdChange} />
+//       <WorkerProfileContainer id={id} />
+//       <WorkerCreate />
+//     </div>
+//   );
+// };
+
+const App = ()=> (
+  <WorkerComponent />
+);
 
 export default App;
