@@ -2,13 +2,17 @@ import React, { useState, useCallback } from 'react';
 import WorkerListContainer from './WorkerList';
 import WorkerProfileContainer from './WorkerProfile';
 import WorkerCreate from './WorkerCreate/WorkerCreate';
-import { useWorkerListQuery } from '../generated/graphql';
+import { useWorkerListQuery, WorkerListQuery } from '../generated/graphql';
+import CustomPagination from './CustomPagination/CustomPagination';
+import CustomPaginationClass from './CustomPagination/CustomPaginationClass';
+import WorkerListWithoutDataContainer from './WorkerList/WorkerListWithoutDataContainer';
 
 interface Props {
 
 }
 const WorkerComponent: React.SFC<Props> = (props: Props)=> {
     const [id, setId] = useState<number | undefined>(1);
+    const [workerList, setWorkerList] = useState<Object[]>();
     const handleIdChange = useCallback(newId=> {
       setId(newId);
     }, []);
@@ -17,10 +21,18 @@ const WorkerComponent: React.SFC<Props> = (props: Props)=> {
     const callback = ()=> {
         refetch();
     }
+
+    const onChangePage = (workerList: Object[])=> {
+      setWorkerList(workerList);
+    }
     return (
       <div className="App">
-        <WorkerListContainer handleIdChange={handleIdChange}
-           data={data}
+        {!!data.workers && 
+        <CustomPaginationClass items={data.workers} initialPage={1} onChangePage={onChangePage}/>
+        }
+        
+        <WorkerListWithoutDataContainer handleIdChange={handleIdChange}
+           workers={workerList}
            error={error}
            loading={loading}
         />
