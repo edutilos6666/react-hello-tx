@@ -7,6 +7,7 @@ import './App.css';
 import WorkerProfileContainer from './components/WorkerProfile';
 import WorkerCreate from './components/WorkerCreate/WorkerCreate';
 import WorkerComponent from './components/WorkerComponent';
+import StudentComponent from './components/StudentComponent';
 
 // const App = () => {
 //   const [id, setId] = useState(1);
@@ -24,7 +25,8 @@ import WorkerComponent from './components/WorkerComponent';
 // };
 
 const App = ()=> (
-  <WorkerComponent />
+  // <WorkerComponent />
+  <StudentComponent />
 );
 
 export default App;

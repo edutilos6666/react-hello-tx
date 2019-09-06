@@ -16,10 +16,13 @@ const defaultProps = {
 interface Props {
     items: Object[],
     onChangePage: (workerList:Object[])=>void,
-    initialPage: number
+    initialPage: number,
+    totalSize: number,
+    start: number,
+    getStudentList: (first: number)=> Object[]
 }
  
-class CustomPaginationClass extends React.Component<Props> {
+class CustomPaginationClassV2 extends React.Component<Props> {
     constructor(props) {
         super(props);
         this.state = { pager: {} };
@@ -33,6 +36,7 @@ class CustomPaginationClass extends React.Component<Props> {
     setPage(page) {
         var items = this.props["items"];
         var pager = this.state["pager"];
+        let totalSize = this.props["totalSize"];
         
  
         if (page < 1 || page > pager.totalPages) {
@@ -40,10 +44,12 @@ class CustomPaginationClass extends React.Component<Props> {
         }
  
         // get new pager object for specified page
-        pager = this.getPager(items.length, page, 10);
+        pager = this.getPager(totalSize, page, items.length);
  
         // get new page of items from items array
-        var pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+        // var pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+        var pageOfItems = this.props["getStudentList"](pager.startIndex+ pager.endIndex+1 | 0);
+        debugger
  
         // update state
         this.setState({ pager: pager });
@@ -127,4 +133,4 @@ class CustomPaginationClass extends React.Component<Props> {
  
 // CustomPaginationClass.propTypes = propTypes;
 // CustomPaginationClass["defaultProps"];
-export default CustomPaginationClass;
+export default CustomPaginationClassV2;

@@ -83,6 +83,9 @@ export type Query = {
   launches?: Maybe<Array<Maybe<Launch>>>,
   worker?: Maybe<Worker>,
   workers: Array<Worker>,
+  student?: Maybe<Student>,
+  students: Array<Student>,
+  countStudents: Scalars['Int'],
 };
 
 
@@ -93,6 +96,26 @@ export type QueryLaunchArgs = {
 
 export type QueryWorkerArgs = {
   id: Scalars['ID']
+};
+
+
+export type QueryStudentArgs = {
+  id: Scalars['ID']
+};
+
+
+export type QueryStudentsArgs = {
+  first?: Maybe<Scalars['Int']>,
+  start?: Maybe<Scalars['Int']>
+};
+
+export type Student = {
+   __typename?: 'Student',
+  id: Scalars['ID'],
+  name: Scalars['String'],
+  age: Scalars['Int'],
+  wage: Scalars['Float'],
+  active: Scalars['Boolean'],
 };
 
 export type Worker = {
@@ -137,6 +160,33 @@ export type LaunchProfileQuery = (
   )> }
 );
 
+export type StudentListQueryVariables = {
+  first?: Maybe<Scalars['Int']>,
+  start?: Maybe<Scalars['Int']>
+};
+
+
+export type StudentListQuery = (
+  { __typename?: 'Query' }
+  & { students: Array<(
+    { __typename?: 'Student' }
+    & Pick<Student, 'id' | 'name' | 'age' | 'wage' | 'active'>
+  )> }
+);
+
+export type StudentProfileQueryVariables = {
+  id: Scalars['ID']
+};
+
+
+export type StudentProfileQuery = (
+  { __typename?: 'Query' }
+  & { student: Maybe<(
+    { __typename?: 'Student' }
+    & Pick<Student, 'id' | 'name' | 'age' | 'wage' | 'active'>
+  )> }
+);
+
 export type CreateWorkerMutationVariables = {
   name: Scalars['String'],
   age: Scalars['Int'],
@@ -175,6 +225,14 @@ export type WorkerProfileQuery = (
     { __typename?: 'Worker' }
     & Pick<Worker, 'id' | 'name' | 'age' | 'wage' | 'active'>
   )> }
+);
+
+export type CountStudentsQueryVariables = {};
+
+
+export type CountStudentsQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'countStudents'>
 );
 
 export const LaunchListDocument = gql`
@@ -239,6 +297,60 @@ export type LaunchProfileComponentProps = Omit<ApolloReactComponents.QueryCompon
       
 export type LaunchProfileQueryHookResult = ReturnType<typeof useLaunchProfileQuery>;
 export type LaunchProfileQueryResult = ApolloReactCommon.QueryResult<LaunchProfileQuery, LaunchProfileQueryVariables>;
+export const StudentListDocument = gql`
+    query StudentList($first: Int, $start: Int) {
+  students(first: $first, start: $start) {
+    id
+    name
+    age
+    wage
+    active
+  }
+}
+    `;
+export type StudentListComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<StudentListQuery, StudentListQueryVariables>, 'query'>;
+
+    export const StudentListComponent = (props: StudentListComponentProps) => (
+      <ApolloReactComponents.Query<StudentListQuery, StudentListQueryVariables> query={StudentListDocument} {...props} />
+    );
+    
+
+    export function useStudentListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<StudentListQuery, StudentListQueryVariables>) {
+      return ApolloReactHooks.useQuery<StudentListQuery, StudentListQueryVariables>(StudentListDocument, baseOptions);
+    }
+      export function useStudentListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<StudentListQuery, StudentListQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<StudentListQuery, StudentListQueryVariables>(StudentListDocument, baseOptions);
+      }
+      
+export type StudentListQueryHookResult = ReturnType<typeof useStudentListQuery>;
+export type StudentListQueryResult = ApolloReactCommon.QueryResult<StudentListQuery, StudentListQueryVariables>;
+export const StudentProfileDocument = gql`
+    query StudentProfile($id: ID!) {
+  student(id: $id) {
+    id
+    name
+    age
+    wage
+    active
+  }
+}
+    `;
+export type StudentProfileComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<StudentProfileQuery, StudentProfileQueryVariables>, 'query'> & ({ variables: StudentProfileQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const StudentProfileComponent = (props: StudentProfileComponentProps) => (
+      <ApolloReactComponents.Query<StudentProfileQuery, StudentProfileQueryVariables> query={StudentProfileDocument} {...props} />
+    );
+    
+
+    export function useStudentProfileQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<StudentProfileQuery, StudentProfileQueryVariables>) {
+      return ApolloReactHooks.useQuery<StudentProfileQuery, StudentProfileQueryVariables>(StudentProfileDocument, baseOptions);
+    }
+      export function useStudentProfileLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<StudentProfileQuery, StudentProfileQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<StudentProfileQuery, StudentProfileQueryVariables>(StudentProfileDocument, baseOptions);
+      }
+      
+export type StudentProfileQueryHookResult = ReturnType<typeof useStudentProfileQuery>;
+export type StudentProfileQueryResult = ApolloReactCommon.QueryResult<StudentProfileQuery, StudentProfileQueryVariables>;
 export const CreateWorkerDocument = gql`
     mutation createWorker($name: String!, $age: Int!, $wage: Float!, $active: Boolean!) {
   postWorker(name: $name, age: $age, wage: $wage, active: $active) {
@@ -318,3 +430,24 @@ export type WorkerProfileComponentProps = Omit<ApolloReactComponents.QueryCompon
       
 export type WorkerProfileQueryHookResult = ReturnType<typeof useWorkerProfileQuery>;
 export type WorkerProfileQueryResult = ApolloReactCommon.QueryResult<WorkerProfileQuery, WorkerProfileQueryVariables>;
+export const CountStudentsDocument = gql`
+    query CountStudents {
+  countStudents
+}
+    `;
+export type CountStudentsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<CountStudentsQuery, CountStudentsQueryVariables>, 'query'>;
+
+    export const CountStudentsComponent = (props: CountStudentsComponentProps) => (
+      <ApolloReactComponents.Query<CountStudentsQuery, CountStudentsQueryVariables> query={CountStudentsDocument} {...props} />
+    );
+    
+
+    export function useCountStudentsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<CountStudentsQuery, CountStudentsQueryVariables>) {
+      return ApolloReactHooks.useQuery<CountStudentsQuery, CountStudentsQueryVariables>(CountStudentsDocument, baseOptions);
+    }
+      export function useCountStudentsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<CountStudentsQuery, CountStudentsQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<CountStudentsQuery, CountStudentsQueryVariables>(CountStudentsDocument, baseOptions);
+      }
+      
+export type CountStudentsQueryHookResult = ReturnType<typeof useCountStudentsQuery>;
+export type CountStudentsQueryResult = ApolloReactCommon.QueryResult<CountStudentsQuery, CountStudentsQueryVariables>;

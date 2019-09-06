@@ -16,10 +16,13 @@ const WorkerComponent: React.SFC<Props> = (props: Props)=> {
     const handleIdChange = useCallback(newId=> {
       setId(newId);
     }, []);
+    let workers: Object[];
 
     let { data, error, loading, refetch } = useWorkerListQuery();
+    workers = data.workers;
     const callback = ()=> {
         refetch();
+        workers = data.workers;
     }
 
     const onChangePage = (workerList: Object[])=> {
@@ -27,8 +30,8 @@ const WorkerComponent: React.SFC<Props> = (props: Props)=> {
     }
     return (
       <div className="App">
-        {!!data.workers && 
-        <CustomPaginationClass items={data.workers} initialPage={1} onChangePage={onChangePage}/>
+        {!!workers && 
+        <CustomPaginationClass items={workers} initialPage={1} onChangePage={onChangePage}/>
         }
         
         <WorkerListWithoutDataContainer handleIdChange={handleIdChange}

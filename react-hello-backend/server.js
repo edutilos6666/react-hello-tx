@@ -6,7 +6,7 @@ var cors = require('cors');
 const { launches } = require("./data/Launches");
 const { books } = require("./data/Books");
 const { workers } = require("./data/Workers");
-
+const { students } = require("./data/Students");
 
 
 
@@ -66,6 +66,15 @@ const typeDefs = `
     wage: Float!
     active: Boolean!
   }
+
+
+   type Student {
+    id: ID!
+    name: String!
+    age: Int!
+    wage: Float!
+    active: Boolean!  
+   }
   
   type Query {
     books: [Book]
@@ -73,6 +82,9 @@ const typeDefs = `
     launches: [Launch]
     worker(id: ID!): Worker
     workers: [Worker!]!
+    student(id: ID!): Student
+    students(first: Int = 10 start: Int = 0): [Student!]!
+    countStudents: Int!
   }
 
   type Mutation {
@@ -94,7 +106,10 @@ const resolvers = {
       launch: (parent, args)=> launches.filter(one=> one.flight_number === parseInt(args.id))[0],
       launches: ()=> launches,
       worker: (parent, args)=> workers.filter(one=> one.id === args.id)[0],
-      workers: ()=> workers
+      workers: ()=> workers,
+      student: (parent, args)=> students.filter(one=> one.id === args.id)[0],
+      students: (parent, args)=> students.slice(+args.start, +args.first+args.start),
+      countStudents: ()=> students.length
  },
  Mutation: {
    postWorker(parent, args) {
